@@ -1,5 +1,4 @@
 'use client';
-export const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 import HomePage from '@/src/components/HomePage';
 import React, { useEffect, useState } from 'react';
 import Loading from './loading';
@@ -13,7 +12,7 @@ function Home({ searchParams }: { searchParams: { genre: string } }) {
     const res = await fetch(
       `https://api.themoviedb.org/3${
         genre === 'fetchTopRated' ? `/movie/top_rated` : `/trending/all/week`
-      }?api_key=${API_KEY}&language=en-US&page=${page}`
+      }?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&page=${page}`
     );
     if (!res.ok) {
       throw new Error('DATA NOT FOUND');
