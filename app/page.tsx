@@ -2,14 +2,16 @@
 import HomePage from '@/src/components/HomePage';
 import React, { useEffect, useState } from 'react';
 import Loading from './loading';
+import { useSearchParams } from 'next/navigation';
 
-function Home({ searchParams }: { searchParams: { genre: string } }) {
+function Home() {
   const [page, setPage] = useState<number>(1);
   const [data, setData] = useState<any>();
+  const searchParams = useSearchParams();
 
   const fetchData = async () => {
-    const genre = searchParams.genre || 'fetchTrending';
-    console.log(genre);
+    const genre = searchParams.get('genre') || 'fetchTrending';
+
     const res = await fetch(
       `https://api.themoviedb.org/3${
         genre === 'fetchTopRated' ? `/movie/top_rated` : `/trending/all/week`
@@ -25,12 +27,12 @@ function Home({ searchParams }: { searchParams: { genre: string } }) {
   useEffect(() => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, searchParams.genre]);
+  }, [page, searchParams.get('genre')]);
 
   useEffect(() => {
     setPage(1);
-    fetchData();
-  }, [searchParams.genre]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams.get('genre')]);
 
   const handlePage = (page: number) => {
     setPage(page);
