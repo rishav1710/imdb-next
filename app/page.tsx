@@ -9,7 +9,6 @@ function Home({ searchParams }: { searchParams: { genre: string } }) {
 
   const fetchData = async () => {
     const genre = searchParams.genre || 'fetchTrending';
-     console.log(genre);
     const res = await fetch(
       `https://api.themoviedb.org/3${
         genre === 'fetchTopRated' ? `/movie/top_rated` : `/trending/all/week`
@@ -29,6 +28,7 @@ function Home({ searchParams }: { searchParams: { genre: string } }) {
 
   useEffect(() => {
     setPage(1);
+    fetchData();
   }, [searchParams.genre]);
 
   const handlePage = (page: number) => {
